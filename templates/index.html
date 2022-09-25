@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Sign Up</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            font: 14px sans-serif;
+        }
+        
+        .wrapper {
+            width: 360px;
+            padding: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrapper">
+        <h2>Sign Up</h2>
+        <p>Please fill this form to create an account.</p>
+        <form id="register_form" action="javascript:;" method="post">
+            <div class="form-group">
+                <label>Email</label>
+                <input id="email_input" type="text" name="email" class="form-control" value="">
+                <span id="email_err" class="invalid-feedback"></span>
+            </div>
+            <div class="form-group">
+                <label>Username</label>
+                <input id="username_input" type="text" name="username" class="form-control" value="">
+                <span id="username_err" class="invalid-feedback"></span>
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <input id="password_input" type="password" name="password" class="form-control" value="">
+                <span id="password_err" class="invalid-feedback"></span>
+            </div>
+            <div class="form-group">
+                <label>Confirm Password</label>
+                <input id="confirm_input" type="password" name="confirm_password" class="form-control" value="">
+                <span id="confirm_err" class="invalid-feedback"></span>
+            </div>
+            <div class="form-group ">
+                <input type="submit" class="btn btn-primary" value="Submit">
+            </div>
+            <p>Already have an account? <a href="login.php ">Login here</a>.</p>
+        </form>
+    </div>
+</body>
+<script type="text/javascript " src="<?php echo constant( 'WEBSITE_URL'); ?>includes/jquery-3.6.1.js"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $("#username_input").change(checkUsername);
+        $("#password_input").change(checkPassword);
+        $("#confirm_input").change(checkConfirm);
+        $("#email_input").change(checkEmail);
+        $("#register_form").submit(submit);
+    })
+
+    function submit() {
+        if (checkUsername() && checkEmail() && checkPassword()) {
+            $.ajax({
+                method: "POST",
+                url: "<?php echo constant( 'WEBSITE_URL'); ?>index.php",
+                data: $("#register_form").serialize(),
+                success: function(data) {
+                    errors = JSON.parse(data);
+                    if (errors.includes("username_taken_err")) {
+                        $("#username_err").text("Username already taken.");
+                        $("#username_input").removeClass("is-valid").addClass("is-invalid");
+                    }
+                }
+            });
+        }
+    }
+
+    function checkUsername() {
+        var username = new RegExp('^[a-zA-Z0-9_]+$');
+
+        valid = true;
+        if (!username.test($("#username_input").val().trim())) {
+            $("#username_err").text("Username can only contain letters, numbers, and underscores.");
+            $("#username_input").removeClass("is-valid").addClass("is-invalid");
+            valid = false;
+        } else {
+            $("#username_input").removeClass("is-invalid").addClass("is-valid");
+            $("#username_err").text("");
+        }
+        return valid;
+    }
+
+    function checkPassword() {
+        var password = new RegExp('^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[@$!%*?&])[A-Za-z0-9@$!%*?&]*$');
+
+        valid = true;
+        if ($("#password_input").val().trim().length < 8) {
+            $("#password_err").text("Password must have atleast 8 characters.");
+            $("#password_input").removeClass("is-valid").addClass("is-invalid");
+            valid = false;
+        } else if (!password.test($("#password_input").val().trim())) {
+            $("#password_err").text("Password must contain an upper and a lower case letter, a number, and a special character.");
+            $("#password_input").removeClass("is-valid").addClass("is-invalid");
+            valid = false;
+        } else {
+            $("#password_input").removeClass("is-invalid").addClass("is-valid");
+            $("#password_err").text("");
+        }
+        return valid && checkConfirm();
+    }
+
+    function checkConfirm() {
+
+        valid = true;
+        if ($("#confirm_input").val().trim() != $("#password_input").val().trim()) {
+            $("#confirm_err").text("Passwords must match.");
+            $("#confirm_input").removeClass("is-valid").addClass("is-invalid");
+            valid = false;
+        } else {
+            $("#confirm_input").removeClass("is-invalid").addClass("is-valid");
+            $("#confirm_err").text("");
+        }
+        return valid;
+    }
+
+    function checkEmail() {
+        var email = new RegExp('^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$');
+
+        valid = true;
+        if (!email.test($("#email_input").val().trim())) {
+            $("#email_err").text("Invalid email address.");
+            $("#email_input").removeClass("is-valid").addClass("is-invalid");
+            valid = false;
+        } else {
+            $("#email_input").removeClass("is-invalid").addClass("is-valid");
+            $("#email_err").text("");
+        }
+        return valid;
+    }
+</script>
+
+</html>
