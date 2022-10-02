@@ -45,7 +45,7 @@
             <div class="form-group ">
                 <input type="submit" class="btn btn-primary" value="Submit">
             </div>
-            <p>Already have an account? <a href="login.php ">Login here</a>.</p>
+            <p>Already have an account? <a href="<?php echo constant( 'WEBSITE_URL'); ?>login.php ">Login here</a>.</p>
         </form>
     </div>
 </body>
@@ -66,10 +66,14 @@
                 url: "<?php echo constant( 'WEBSITE_URL'); ?>index.php",
                 data: $("#register_form").serialize(),
                 success: function(data) {
+                    console.log(data);
                     errors = JSON.parse(data);
                     if (errors.includes("username_taken_err")) {
                         $("#username_err").text("Username already taken.");
                         $("#username_input").removeClass("is-valid").addClass("is-invalid");
+                    }
+                    else{
+                        window.location.href = "<?php echo constant( 'WEBSITE_URL'); ?>login.php";
                     }
                 }
             });
