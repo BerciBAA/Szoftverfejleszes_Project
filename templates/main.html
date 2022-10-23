@@ -4,11 +4,30 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../style/main.css">
+    <link rel="stylesheet" href="style/main.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <title>Main Page</title>
 </head>
 <body>
-
-    
+    <div class="wrapper">
+        <nav class = "left all">
+            <div class="chat all" >Chat</div>
+            <div class="next all">Következő</div>
+            <div class="username all"><?php echo $_SESSION["username"]?></div>
+        </nav>
+        <main class="middle">
+            <div class="userpic">
+                <img src="img/test_item.png" alt="">
+                <div class="choosegame">Kiválasztott játék</div>
+            </div>
+            <div class="discription">Leírás</div>
+            <div class="superlike all">Nagyon tetszik</div>
+        </main>
+        <nav class = "right all">
+            <div class="options all">Beállítások</div>
+            <div class="game all">Jászunk</div>
+            <div class="logout all"><a href = "<?php echo constant( 'WEBSITE_URL');?>logout.php" >Kijelentkezés</a></div>
+        </nav>
+    </div>
 </body>
 </html>
