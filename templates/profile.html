@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style/profile.css">
+
+</head>
+<body>
+    <div class="container">
+        <div class="leftBox">
+            <nav>
+                <a onclick="tabs(0)" class="tab active">
+                    Felhasználói beállítások
+                </a>
+                <a onclick="tabs(1)" class="tab">
+                    Játék beálítások
+                </a>
+                <a onclick="tabs(2)" class="tab">
+                    EGYÉB BEÁLLÍTÁSOK
+                </a>
+                <a onclick="tabs(3)" class="tab">
+                    EGYÉB BEÁLLÍTÁSOK
+                </a>
+                <a href="<?php echo constant( 'WEBSITE_URL');?>logout.php" class="tab">
+                    Kijelentkezés
+                </a>
+            </nav>
+        </div>
+        <div class="rightBox">
+
+            <div class="profile tabShow">
+                <form action="" method="post">
+                    <div class="editShow">
+                        <h1>Játék beállítások</h1>
+                        <h2>Felhasználó név:</h2>
+                        <input type="text" class="input" value="<?php echo $_SESSION["username"]?>" name ="username">
+                        <h2>Jelszó:</h2>
+                        <input type="password" class="input" value="" name="password">
+                        <h2>Jelszó újra:</h2>
+                        <input type="password" class="input" value="" name="passwordAgain">
+                        <h2>Születési dátum:</h2>
+                        <input type="text" class="input" value="1999-01-27">
+                        <h2>Mikrofon: <input type="checkbox"></h2>
+                        <h2>Nem: 
+                            
+                        </h2>
+                        <input type="radio" id="man" name="fav_language" value="HTML">
+                            <label for="man">Férfi</label><br>
+                            <input type="radio" id="woman" name="fav_language" value="HTML">
+                            <label for="woman">Nő</label><br>
+                            <input type="radio" id="other" name="fav_language" value="HTML">
+                            <label for="other">Egyéb</label><br>
+                        <h2>Leírás:</h2>
+                        <textarea  class="input" value="MINTA KOR" style="resize: none;"></textarea>
+                      
+                        <input type="submit" class="btn" onclick="edit(1)" value="Szerkesztés befejezése">
+                    </div>
+                </form>
+               
+                <div class="editShow">
+                    <h2>Felhasználó név:</h2>
+                    <h3><?php echo $_SESSION["username"]?></h3>
+                    <h2>Születési dátum:</h2>
+                    <h3></h3>
+                    <h2>Leírás:</h2>
+                    <h3></h3>
+                    <button class="btn" onclick="edit(0)">Szerkesztés</button>
+                </div>
+                
+            </div>
+            <div class="game tabShow">
+                <h1>Játék beállítások</h1>
+                <button class="btn" >Szerkesztés</button>
+            </div>
+        </div>
+        
+    </div>
+
+    <script src="javascript/profile.js"></script>
+</body>
+</html>

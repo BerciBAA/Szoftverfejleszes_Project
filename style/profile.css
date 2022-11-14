@@ -1,0 +1,77 @@
+@import url("http://fonts.googleapis.com/css?family=Nunito:400,900|Montserrat|Roboto");
+
+body{
+    background: linear-gradient(to right,#e52d2d,rgb(115, 25, 25) );
+    overflow: hidden;
+}
+.container{
+    background: rgb(226, 107, 107);
+    width: 1300px;
+    height: 900px;
+
+    margin: 0 auto;
+    position: relative;
+    margin-top: 30px;
+    box-shadow: 2px 5px 20px rgba(116, 58, 58, 1);
+}
+.leftBox{
+    float: left;
+    top: -1%;
+    left: 5%;
+    position: absolute;
+    width: 25%;
+    height: 102%;
+    background: rgb(141, 11, 11);
+    box-shadow: 2px 5px 20px rgba(116, 58, 58, 0.5);
+    border: rgb(59, 19, 19) solid 1px;
+}
+
+nav a{
+    
+    list-style: none;
+    padding: 60px;
+    font-size: 1.1em;
+    display: block;
+}
+nav a:hover{
+    color: rgb(235, 198, 198);
+    transform: scale(1.2);
+    cursor: pointer;
+
+}
+.rightBox{
+    padding-top: 15px;
+    width: 60%;
+    margin-left: 35%;
+}
+h1{
+    color: rgb(171, 6, 6);
+    margin-top: 20px;
+    font-size: 4em;
+}
+h2{
+    font-size: 15px;
+    margin-top: 20px;
+    margin-left: 5px;
+}
+
+.input, p{
+    border: 0;
+    border-bottom: 1px solid black;
+    background-color: rgb(226, 107, 107) ;
+    width: 80%;
+    font-size: 1.2em;
+    padding: 7px 0;
+    outline: none;
+}
+.btn{
+    margin-top: 25px;
+    font-size: 1.2em;
+    border: none;
+    box-shadow: 0px 0px 3px 3px red;
+    background-color: rgb(171, 6, 6);   
+    padding: 10px; 
+}
+.btn:hover{
+    cursor: pointer;
+}
