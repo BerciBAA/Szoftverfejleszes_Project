@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -8,12 +9,15 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <title>Main Page</title>
 </head>
+
 <body>
     <div class="wrapper">
-        <nav class = "left all">
-            <div class="chat all" >Chat</div>
+        <nav class="left all">
+            <div class="chat all">Chat</div>
             <div class="next all">Következő</div>
-            <div class="username all"><?php echo $_SESSION["username"]?></div>
+            <div class="username all">
+                <?php echo $_SESSION["username"]?>
+            </div>
         </nav>
         <main class="middle">
             <div class="userpic">
@@ -23,11 +27,12 @@
             <div class="discription">Leírás</div>
             <div class="superlike all">Nagyon tetszik</div>
         </main>
-        <nav class = "right all">
-            <div class="options all"><a href = "<?php echo constant( 'WEBSITE_URL');?>profile.php" >Beállítások</a></div>
+        <nav class="right all">
+            <div class="options all"><a href="profile.php">Beállítások</a></div>
             <div class="game all">Jászunk</div>
-            <div class="logout all"><a href = "<?php echo constant( 'WEBSITE_URL');?>logout.php" >Kijelentkezés</a></div>
+            <div class="logout all"><a href="logout.php">Kijelentkezés</a></div>
         </nav>
     </div>
 </body>
+
 </html>

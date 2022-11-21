@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -8,6 +9,7 @@
     <link rel="stylesheet" href="style/profile.css">
 
 </head>
+
 <body>
     <div class="container">
         <div class="leftBox">
@@ -24,7 +26,7 @@
                 <a onclick="tabs(3)" class="tab">
                     EGYÉB BEÁLLÍTÁSOK
                 </a>
-                <a href="<?php echo constant( 'WEBSITE_URL');?>logout.php" class="tab">
+                <a href="logout.php" class="tab">
                     Kijelentkezés
                 </a>
             </nav>
@@ -32,53 +34,153 @@
         <div class="rightBox">
 
             <div class="profile tabShow">
-                <form action="" method="post">
+                <form action="javascript:;" method="post" id="profileedit">
                     <div class="editShow">
                         <h1>Játék beállítások</h1>
                         <h2>Felhasználó név:</h2>
-                        <input type="text" class="input" value="<?php echo $_SESSION["username"]?>" name ="username">
-                        <h2>Jelszó:</h2>
-                        <input type="password" class="input" value="" name="password">
-                        <h2>Jelszó újra:</h2>
-                        <input type="password" class="input" value="" name="passwordAgain">
+                        <input type="text" class="input" value="" name="username">
                         <h2>Születési dátum:</h2>
-                        <input type="text" class="input" value="1999-01-27">
-                        <h2>Mikrofon: <input type="checkbox"></h2>
-                        <h2>Nem: 
-                            
+                        <input type="text" class="input" value="1999-01-27" name="birthdate">
+                        <h2>Mikrofon: <input type="checkbox" name="microphone"></h2>
+                        <h2>Nem:
+
                         </h2>
-                        <input type="radio" id="man" name="fav_language" value="HTML">
-                            <label for="man">Férfi</label><br>
-                            <input type="radio" id="woman" name="fav_language" value="HTML">
-                            <label for="woman">Nő</label><br>
-                            <input type="radio" id="other" name="fav_language" value="HTML">
-                            <label for="other">Egyéb</label><br>
+                        <input type="radio" id="man" name="gender" value="1">
+                        <label for="man">Férfi</label><br>
+                        <input type="radio" id="woman" name="gender" value="2">
+                        <label for="woman">Nő</label><br>
+                        <input type="radio" id="other" name="gender" value="3">
+                        <label for="other">Egyéb</label><br>
                         <h2>Leírás:</h2>
-                        <textarea  class="input" value="MINTA KOR" style="resize: none;"></textarea>
-                      
-                        <input type="submit" class="btn" onclick="edit(1)" value="Szerkesztés befejezése">
+                        <textarea class="input" value="" name="description" style="resize: none;"></textarea>
+
+                        <input type="submit" class="btn" onclick="finishEdit()" value="Szerkesztés befejezése">
                     </div>
                 </form>
-               
+
                 <div class="editShow">
                     <h2>Felhasználó név:</h2>
-                    <h3><?php echo $_SESSION["username"]?></h3>
+                    <h3 id="username"></h3>
                     <h2>Születési dátum:</h2>
-                    <h3></h3>
+                    <h3 id="birthdate"></h3>
+                    <h2>Mikrofon:</h2>
+                    <h3 id="microphone"></h3>
+                    <h2>Nem:</h2>
+                    <h3 id="gender"></h3>
                     <h2>Leírás:</h2>
-                    <h3></h3>
+                    <h3 id="description"></h3>
                     <button class="btn" onclick="edit(0)">Szerkesztés</button>
                 </div>
-                
+
             </div>
             <div class="game tabShow">
                 <h1>Játék beállítások</h1>
-                <button class="btn" >Szerkesztés</button>
+                <button class="btn">Szerkesztés</button>
             </div>
         </div>
-        
     </div>
-
-    <script src="javascript/profile.js"></script>
 </body>
+<script type="text/javascript " src="includes/jquery-3.6.1.js"></script>
+<script>
+    var tabBtn = document.querySelectorAll(".tab");
+    var tab = document.querySelectorAll(".tabShow");
+    var editTab = document.querySelectorAll(".editShow");
+
+    function tabs(panelIndex) {
+        edit(1);
+        tab.forEach(function(node) {
+            node.style.display = "none";
+
+        });
+        tab[panelIndex].style.display = "block";
+    }
+
+    function edit(panelIndex) {
+        editTab.forEach(function(node) {
+            node.style.display = "none";
+
+        });
+        editTab[panelIndex].style.display = "block";
+    }
+    edit(1)
+    tabs(0)
+
+    function getCurrentInfo() {
+        $.ajax({
+            method: "POST",
+            url: "profile.php",
+            data: {
+                action: "show",
+            },
+            success: function(data) {
+                console.log(data);
+                response = JSON.parse(data);
+                $("input[name='username']").val(response.username);
+                $("#username").html(response.username);
+                if (response.birthdate == "1000-01-01") {
+                    $("input[name='birthdate']").val("");
+                    $("#birthdate").html("Nincs megadva");
+                } else {
+                    $("input[name='birthdate']").val(response.birthdate);
+                    $("#birthdate").html(response.birthdate);
+                }
+                if (response.microphone == 0) {
+                    $("input[name='microphone']").prop('checked', false);
+                    $("#microphone").html("Nincs megadva");
+                } else {
+                    $("input[name='microphone']").prop('checked', true);
+                    $("#microphone").html((response.microphone == 1) ? "Van" : "Nincs");
+                }
+                if (response.gender == 0) {
+                    $("input[name='gender']").prop('checked', false);
+                    $("#gender").html("Nincs megadva");
+                } else {
+                    switch (response.gender) {
+                        case 1:
+                            $("#gender").html("Férfi");
+                            break;
+                        case 2:
+                            $("#gender").html("Nő");
+                            break;
+                        case 3:
+                            $("#gender").html("Egyéb");
+                            break;
+                        default:
+                            break;
+                    }
+                    $("input[name='gender']").each(function(index) {
+                        if ($(this).val() == response.gender) {
+                            $("input[name='gender']").prop('checked', true);
+                        }
+                    })
+                }
+                if (!response.description) {
+                    $("textarea[name='description']").html("");
+                    $("#description").html("Nincs megadva");
+                } else {
+                    $("textarea[name='description']").html(response.description);
+                    $("#description").html(response.description);
+                }
+            }
+        });
+    }
+
+    function finishEdit() {
+        $.ajax({
+            method: "POST",
+            url: "profile.php",
+            data: {
+                action: "set",
+                form: $("#profileedit").serializeArray(),
+            },
+            success: function(data) {
+                edit(1);
+                getCurrentInfo();
+            }
+        });
+    }
+
+    getCurrentInfo();
+</script>
+
 </html>

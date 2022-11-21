@@ -45,11 +45,11 @@
             <div class="form-group ">
                 <input type="submit" class="btn btn-primary" value="Submit">
             </div>
-            <p>Already have an account? <a href="<?php echo constant( 'WEBSITE_URL'); ?>login.php ">Login here</a>.</p>
+            <p>Already have an account? <a href="login.php ">Login here</a>.</p>
         </form>
     </div>
 </body>
-<script type="text/javascript " src="<?php echo constant( 'WEBSITE_URL'); ?>includes/jquery-3.6.1.js"></script>
+<script type="text/javascript " src="includes/jquery-3.6.1.js"></script>
 <script type="text/javascript">
     $(document).ready(function() {
         $("#username_input").change(checkUsername);
@@ -63,7 +63,7 @@
         if (checkUsername() && checkEmail() && checkPassword()) {
             $.ajax({
                 method: "POST",
-                url: "<?php echo constant( 'WEBSITE_URL'); ?>index.php",
+                url: "index.php",
                 data: $("#register_form").serialize(),
                 success: function(data) {
                     console.log(data);
@@ -71,9 +71,8 @@
                     if (errors.includes("username_taken_err")) {
                         $("#username_err").text("Username already taken.");
                         $("#username_input").removeClass("is-valid").addClass("is-invalid");
-                    }
-                    else{
-                        window.location.href = "<?php echo constant( 'WEBSITE_URL'); ?>login.php";
+                    } else {
+                        window.location.href = "login.php";
                     }
                 }
             });
