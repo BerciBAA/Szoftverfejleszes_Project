@@ -1,0 +1,130 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    text-decoration: none;
+    font-family: 'Poppins',sans-serif;
+}
+
+body{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+}
+
+.wrapper{
+    background-color: wheat;
+    width: 1200px;
+    box-shadow: 0 0 12px;
+    border-radius: 10px;
+}
+
+.wrapper img{
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.chatArea header{
+    display: flex;
+    align-items: center;
+    padding: 18px 30px;
+}
+
+.chatArea header .backIcon{
+    font-size: 18px;
+    color: black;
+
+}
+
+.chatArea header img{
+    height: 45px;
+    width: 45px;
+    margin: 0 15px;
+}
+
+.chatArea header span{
+    font-size: 17px;
+    font-weight: 500;
+}
+
+.chatBox{
+    height: 500px;
+    background: whitesmoke;
+    padding: 10px 30px 20px 30px;
+    box-shadow: 0px -1px 1px black;
+    overflow-y: auto;
+    
+}
+
+.chatBox .chat{
+    margin: 15px 0;
+}
+
+.chatBox .chat p{
+    word-wrap: break-word;
+    padding: 8px 16px;
+}
+
+.chatBox .outgoing{
+    display: flex;
+}
+
+.outgoing .details p{
+    background-color: black;
+    color: white;
+    border-radius: 18px 18px 0 18px;
+}
+
+.outgoing .details{
+    margin-left: auto;
+    max-width: 100%;
+}
+
+.chatBox .incoming{
+    display: flex;
+    align-items: center;
+    align-items: flex-end;   
+}
+
+.chatBox .incoming img{
+    height: 35px;
+    width: 35px;
+
+}
+
+.incoming .details{
+    margin-left: 10px;
+} 
+
+.incoming .details p{
+    background: rgba(0, 0, 180, 1);
+    color: white;
+    border-radius: 18px 18px 18px 0;
+}
+
+.chatArea .typingArea{
+    padding: 18px 30px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.typingArea input{
+    height: 45px;
+    width: 94%;
+    font-size: 17px;
+    border: 1px solid black;
+    padding: 0 13px;
+    border-radius: 5px;
+    outline: none;
+}
+
+.typingArea button{
+    color: black;
+    background-color: white;
+    border-radius: 5px;
+    width: 55px;
+    border:none;
+    outline: none;
+}

@@ -1,18 +1,26 @@
-@import url("http://fonts.googleapis.com/css?family=Nunito:400,900|Montserrat|Roboto");
-
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    text-decoration: none;
+    font-family: 'Poppins',sans-serif;
+}
 body{
-    background: linear-gradient(to right,#e52d2d,rgb(115, 25, 25) );
+    background: white;
     overflow: hidden;
 }
+
+
 .container{
-    background: rgb(226, 107, 107);
+    background: wheat;
     width: 1300px;
     height: 900px;
-
     margin: 0 auto;
     position: relative;
     margin-top: 30px;
-    box-shadow: 2px 5px 20px rgba(116, 58, 58, 1);
+    box-shadow: 2px 5px 20px black;
+    border-radius: 10px;
 }
 .leftBox{
     float: left;
@@ -21,9 +29,8 @@ body{
     position: absolute;
     width: 25%;
     height: 102%;
-    background: rgb(141, 11, 11);
-    box-shadow: 2px 5px 20px rgba(116, 58, 58, 0.5);
-    border: rgb(59, 19, 19) solid 1px;
+    background: whitesmoke;
+    box-shadow: 2px 5px 20px black;
 }
 
 nav a{
@@ -34,9 +41,10 @@ nav a{
     display: block;
 }
 nav a:hover{
-    color: rgb(235, 198, 198);
-    transform: scale(1.2);
+    color: black;
     cursor: pointer;
+    background-color: wheat;
+    font-size: 20px;
 
 }
 .rightBox{
@@ -45,7 +53,7 @@ nav a:hover{
     margin-left: 35%;
 }
 h1{
-    color: rgb(171, 6, 6);
+    color: black;
     margin-top: 20px;
     font-size: 4em;
 }
@@ -58,7 +66,7 @@ h2{
 .input, p{
     border: 0;
     border-bottom: 1px solid black;
-    background-color: rgb(226, 107, 107) ;
+    background-color: wheat ;
     width: 80%;
     font-size: 1.2em;
     padding: 7px 0;
@@ -68,10 +76,20 @@ h2{
     margin-top: 25px;
     font-size: 1.2em;
     border: none;
-    box-shadow: 0px 0px 3px 3px red;
-    background-color: rgb(171, 6, 6);   
+    box-shadow: 0px 0px 3px 3px wheat;
+    background-color: white;  
+     
     padding: 10px; 
 }
 .btn:hover{
     cursor: pointer;
+}
+.container .backIcon{
+    padding: 10px;
+    font-size: 35px;
+    color: black;
+    background-color: white;
+}
+.tab:visited{
+    color:black;
 }
