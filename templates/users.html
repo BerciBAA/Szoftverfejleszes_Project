@@ -17,8 +17,8 @@
                 <div class="content">
                     <img src="img/test_mage.jpg" alt="">
                     <div class="details">
-                        <span><?php echo $_SESSION["username"]?></span>
-                        <p>Aktív most</p>
+                        <span><?php echo $row['username']; ?></span>
+                        <p>Active Now</p>
                     </div>
                 </div>
                 <a href="#" class="logout">Kijelentkezés</a>
@@ -31,23 +31,10 @@
                 <button><i class="fas fa-search"></i></button>
             </div>
             <div class="usersList">
-                <a href="#">
-                    <div class="content">
-                        <img src="img.jpg" alt="">
-                        <div class="details">
-                            <span>RANDOM NÉV</span>
-                            <p>TESZT ÜZENET</p>
-                           
-                        </div>
-                       
-                    </div>
-                    <div class="statusDot">
-                        <i class="fa fa-circle"></i>
-
-                    </div>
                 
             </div>
         </section>
     </div>
+    <script src="javascript/users.js"></script>
 </body>
 </html>

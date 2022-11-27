@@ -12,6 +12,7 @@ body{
     justify-content: center;
     min-height: 100vh;
 }
+
 .wrapper{
     background-color: wheat;
     width: 1300px;
@@ -31,8 +32,10 @@ body{
     padding-top: 20px;
     justify-content: space-between;
     border-bottom: 1px solid black;
-
+    
+   
 }
+
 .wrapper img{
     object-fit: cover;
     border-radius: 50%;
@@ -96,6 +99,11 @@ body{
 }
 .usersList a {
     padding-right: 15px;
+    color: black;
+}
+.usersList a:visited
+{
+    color: black;
 }
 .usersList a .content img{
     height: 40px;
@@ -118,3 +126,4 @@ body{
     color: black;
     background-color: white;
 }
+
