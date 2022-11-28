@@ -8,6 +8,7 @@
     <title>Document</title>
     <link rel="stylesheet" href="style/profile.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
+    <link href="https://vjs.zencdn.net/7.20.3/video-js.css" rel="stylesheet" />
 
 </head>
 
@@ -20,7 +21,7 @@
                     Felhasználói beállítások
                 </a>
                 <a onclick="tabs(1)" class="tab">
-                    Játék beálítások
+                    Játékok
                 </a>
                 <a onclick="tabs(2)" class="tab">
                     EGYÉB BEÁLLÍTÁSOK
@@ -45,7 +46,6 @@
                         <input type="text" class="input" value="1999-01-27" name="birthdate">
                         <h2>Mikrofon: <input type="checkbox" name="microphone"></h2>
                         <h2>Nem:
-
                         </h2>
                         <input type="radio" id="man" name="gender" value="1">
                         <label for="man">Férfi</label><br>
@@ -59,7 +59,6 @@
                         <input type="submit" class="btn" onclick="finishEdit()" value="Szerkesztés befejezése">
                     </div>
                 </form>
-
                 <div class="editShow">
                     <h2>Felhasználó név:</h2>
                     <h3 id="username"></h3>
@@ -73,20 +72,64 @@
                     <h3 id="description"></h3>
                     <button class="btn" onclick="edit(0)">Szerkesztés</button>
                 </div>
-
             </div>
             <div class="game tabShow">
-                <h1>Játék beállítások</h1>
-                <button class="btn">Szerkesztés</button>
+                <div class="gameShow">
+                    <h1>Játékok</h1>
+                    <div id="gameList">
+                        <a href="javascript:game(1)"><b>+ Játék hozzáadása</b></a>
+                    </div>
+                </div>
+                <div class="gameShow">
+                    <h1>Játék hozzáadása</h1>
+                    <label for="gameSelect">Válassza ki a játékot</label><br>
+                    <select name="gameSelect" id="gameSelect">
+                        <option value="" disabled selected>Játékok...</option>
+                    </select>
+                    <div id="gameInputs">
+                        <form action="javascript:;" method="post" id="gameEdit">
+                            <h2>Játékban használt név:</h2>
+                            <input type="text" class="input" value="" name="screen_name">
+                            <h2>Rang:</h2>
+                            <input type="text" class="input" value="" name="rank">
+
+                            <input type="submit" class="btn" onclick="addGame()" value="Szerkesztés befejezése">
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </body>
+<template id="template">
+    <div style="border-top: solid black thin; border-bottom: solid black thin;"><b><span data-template="gameName"></span></b><br>
+        Játékbeli név: <span data-template="screenName"></span><br>
+        Rang: <span data-template="rank"></span><br>
+        <b><span>Videók:</span></b>
+        <div data-template="videos">
+            <a href="javascript:;" data-template="videoAddButton">Videó hozzáadása +</a>
+        </div>
+        <form action="javascript:;" method="post" data-template="videoAddForm" enctype="multipart/form-data">
+            <input type="hidden" value="postVideo" name="action" >
+            <input type="hidden" value="" name="game_id" data-template="videoGameId">
+            <h2>Videó címe:</h2>
+            <input type="text" class="input" value="" name="title">
+            <h2>Videó fájl:</h2>
+            <input type="file" class="input" value="" name="video">
+            <input data-template="videoSubmitButton" type="submit" class="btn" value="Videó feltöltése">
+        </form>
+        <video id="testVideo" width="400" height="264" controls data-template="videoPlayer" hidden>
+            <source id="testVideoSource" data-template="videoPlayerSource">
+        </video>
+    </div>
+</template>
 <script type="text/javascript " src="includes/jquery-3.6.1.js"></script>
+<script src="https://vjs.zencdn.net/7.20.3/video.min.js"></script>
 <script>
     var tabBtn = document.querySelectorAll(".tab");
     var tab = document.querySelectorAll(".tabShow");
     var editTab = document.querySelectorAll(".editShow");
+    var gameTab = document.querySelectorAll(".gameShow");
 
     function tabs(panelIndex) {
         edit(1);
@@ -104,8 +147,18 @@
         });
         editTab[panelIndex].style.display = "block";
     }
+
+    function game(panelIndex) {
+        gameTab.forEach(function(node) {
+            node.style.display = "none";
+
+        });
+        gameTab[panelIndex].style.display = "block";
+    }
+
     edit(1)
     tabs(0)
+    game(0)
 
     function getCurrentInfo() {
         $.ajax({
@@ -182,7 +235,133 @@
         });
     }
 
+    function getUnsetGames() {
+        $.ajax({
+            method: "get",
+            url: "game.php",
+            data: {
+                action: "getUnsetGames",
+            },
+            success: function(data) {
+                response = JSON.parse(data);
+                $(".jsOption").detach();
+                response.forEach(element => {
+                    $("#gameSelect").append("<option class='jsOption' value='" + element.id + "''  >" + element.name + "</option>");
+                });
+            }
+        });
+    }
+
+    function addGame() {
+        $.ajax({
+            method: "post",
+            url: "game.php",
+            data: {
+                action: "setGame",
+                game_id: $("#gameSelect").val(),
+                form: $("#gameEdit").serializeArray(),
+            },
+            success: function(data) {
+                game(0);
+            }
+        });
+    }
+
+    function playVideo(videoSource, type, gameId) {
+        $('#videoPlayer' + gameId).show();
+        $("#videoAddForm" + gameId).hide();
+        var videoElm = document.getElementById('videoPlayer' + gameId);
+        var videoSourceElm = document.getElementById('videoPlayerSource' + gameId);
+        if (!videoElm.paused) {
+            videoElm.pause();
+        }
+
+        videoSourceElm.src = videoSource;
+        videoSourceElm.type = type;
+
+        videoElm.load();
+        videoElm.play();
+    }
+
+    function getGames() {
+        $.ajax({
+            method: "get",
+            url: "game.php",
+            data: {
+                action: "getGames",
+            },
+            success: function(data) {
+                response = JSON.parse(data);
+                console.log(response);
+                response.forEach(element => {
+                    var template = $("#template").html();
+                    var $row = $(template);
+                    $row.find("span[data-template='gameName']").text(element.gameName);
+                    $row.find("span[data-template='screenName']").text(element.screenName);
+                    $row.find("span[data-template='rank']").text(element.rank);
+                    $row.find("div[data-template='videos']").attr("id", "videos" + element.gameId);
+                    $row.find("video[data-template='videoPlayer']").attr("id", "videoPlayer" + element.gameId);
+                    $row.find("source[data-template='videoPlayerSource']").attr("id", "videoPlayerSource" + element.gameId);
+                    $row.find("a[data-template='videoAddButton']").click(function(e) {
+                        $("#videoAddForm" + element.gameId).toggle();
+                        $("#videoPlayer" + element.gameId).hide();
+                    });
+                    $row.find("form[data-template='videoAddForm']").attr("id", "videoAddForm" + element.gameId);
+                    $row.find("form[data-template='videoAddForm']").hide();
+                    $row.find("input[data-template='videoGameId']").val(element.gameId);
+                    $row.find("input[data-template='videoSubmitButton']").click(function(e) {
+                        $.ajax({
+                            url: 'game.php',
+                            type: 'POST',
+                            data: new FormData($("#videoAddForm" + element.gameId)[0]),
+                            cache: false,
+                            contentType: false,
+                            processData: false,
+
+                            success: function(data) {
+                                $("#videoAddForm" + element.gameId).toggle();
+                                getVideos(element.gameId);
+                            }
+                        });
+                    });
+                    $("#gameList").prepend($row);
+                    getVideos(element.gameId);
+                });
+            }
+        });
+    }
+
+    function getVideos(gameId) {
+        $.ajax({
+            method: "get",
+            url: "game.php",
+            data: {
+                action: "getVideos",
+                game_id: gameId
+            },
+            success: function(data) {
+                console.log(data);
+                response = JSON.parse(data);
+                console.log(response);
+                $(".videoLink" + gameId).detach();
+                response.forEach(element => {
+                    $("#videos" + gameId).prepend("<a href='javascript:;' class='videoLink" + gameId + "' onclick=\"playVideo('" + element.filename + "', 'video/mp4'," + gameId + ")\">" + element.title + "</a><br>");
+                });
+
+            }
+        });
+    }
+
+    getVideos(1);
     getCurrentInfo();
+    getUnsetGames();
+    getGames();
+    $("#gameInputs").hide();
+
+    $("#gameSelect").change(function(e) {
+        $("#gameInputs").show();
+        console.log($("#gameSelect").val());
+    });
 </script>
 
 </html>
