@@ -1,38 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style/main.css">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <title>Main Page</title>
+    <title>Document</title>
+    <link rel="stylesheet" href="style/mainstyle.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
+    
+    <title>Fő oldal</title>
 </head>
-
 <body>
-    <div class="wrapper">
-        <nav class="left all">
-            <div class="chat all"> <a href="users.php">Chat</a></div>
-            <div class="next all">Következő</div>
-            <div class="username all">
-                <?php echo $_SESSION["username"]?>
+    <div calss="container">
+        <div class="side">
+            <div class="header">
+                <div class="avatar">
+                    <img src="https://icons.veryicon.com/png/o/internet--web/prejudice/user-128.png" alt="">
+                </div>
+                  <div class="titel"><?php echo $_SESSION['username']?></div>
             </div>
-        </nav>
-        <main class="middle">
-            <div class="userpic">
-                <img src="img/test_item.png" alt="">
-                <div class="choosegame">Kiválasztott játék</div>
-            </div>
-            <div class="discription">Leírás</div>
-            <div class="superlike all">Nagyon tetszik</div>
-        </main>
-        <nav class="right all">
-            <div class="options all"><a href="profile.php">Beállítások</a></div>
-            <div class="game all">Jászunk</div>
-            <div class="logout all"><a href="logout.php">Kijelentkezés</a></div>
-        </nav>
-    </div>
-</body>
+            <div class="games">
+                <ul>
+                    <li class="active">Leagues of Legends</li>
+                    <li>Dota 2</li>
+                </ul>
+            </div> 
 
+            <div id="panel">
+                <section id="left">    
+                    <p class="chat" onclick="" style="cursor: pointer;"><a href="users.php">Chat</a></p>
+                    <p class="skipp" onclick="" style="cursor: pointer;">🙏</p>
+                    <p class="myusername"><?php echo $_SESSION['username']?></p>                    
+                </section>
+                <section id="middle">    
+                    <div class="userimg">
+                        <img src="https://cdn1.epicgames.com/salesEvent/salesEvent/EGS_LeagueofLegends_RiotGames_S1_2560x1440-ee500721c06da3ec1e5535a88588c77f" alt="">
+                    </div>
+                    <p class="description">Description</p>
+                    <p class="star" onclick="" style="cursor: pointer;">✨</p>
+                    
+                </section>
+                <section id="right">    
+                    <p class="settings" onclick="" style="cursor: pointer;"><a href="profile.php">Settings</a></p>
+                    <p class="play" onclick="" style="cursor: pointer;">🤝</p>
+                    <p class="logout" onclick="" style="cursor: pointer;"><a href="logout.php">Logout</a></p>
+                </section>
+            </div>
+            
+        </div>    
+        <div class="content"></div>  
+    </div>    
+</body>
 </html>

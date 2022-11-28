@@ -5,5 +5,6 @@
         header("location: login.php");
         exit;
     }
+    
     include "templates/main.html";
 ?>

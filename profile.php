@@ -33,12 +33,12 @@ if(isset($_POST["form"])){
 
 
 if($params["action"] == "show"){
-    $sql = "SELECT * FROM users WHERE username = ?";
+    $sql = "SELECT * FROM users WHERE id = ?";
         
     if($stmt = mysqli_prepare($link, $sql)){
-        $stmt->bind_param("s", $param_username);
+        $stmt->bind_param("i", $param_id);
         
-        $param_username = $_SESSION["username"];
+        $param_id = $_SESSION["id"];
         
         if(mysqli_stmt_execute($stmt)){            
             echo(json_encode(mysqli_fetch_assoc(mysqli_stmt_get_result($stmt))));
@@ -49,13 +49,13 @@ if($params["action"] == "show"){
     }
 }
 elseif($params["action"] == "set"){ 
-    $sql = "UPDATE `users` SET `username` = ?, `birthdate` = ?, `microphone` = ?, `gender` = ?, `description` = ?  WHERE username = ?";
+    $sql = "UPDATE `users` SET `username` = ?, `birthdate` = ?, `microphone` = ?, `gender` = ?, `description` = ?  WHERE id = ?";
         
     if($stmt = mysqli_prepare($link, $sql)){
-        $stmt->bind_param("ssiiss", $params["username"], $params["birthdate"], $params["microphone"], $params["gender"], $params["description"], $param_username);
+        $stmt->bind_param("ssiiss", $params["username"], $params["birthdate"], $params["microphone"], $params["gender"], $params["description"], $param_id);
 
-        $param_username = $_SESSION["username"];
-        
+        $param_id = $_SESSION["id"];
+        $_SESSION['username'] = $params["username"];
         if(!mysqli_stmt_execute($stmt)){
             $errors[] = "db_error";
         }
