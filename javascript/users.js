@@ -12,4 +12,4 @@ setInterval(()=>{
         }
     }
     xhr.send();
-},100)
+},500)

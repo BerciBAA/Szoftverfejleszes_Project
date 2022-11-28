@@ -44,7 +44,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                             
                             $_SESSION["loggedin"] = true;
                             $_SESSION["id"] = $id;
-                            $_SESSION["username"] = $username;                            
+                            $_SESSION["username"] = $username; 
+                            $sql = mysqli_query($link,"UPDATE users SET status = 'Aktív' where username = '{$_SESSION["username"]}'");                        
                             
                             header("location: main.php");
                         } else{
