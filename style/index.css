@@ -1,0 +1,19 @@
+.wrapper{
+    background: linear-gradient(262deg, rgb(26 26 26), #262626);
+    border-radius: 0.4em;
+    margin-top: 12em;
+    margin-left: auto;
+    margin-right: auto;
+    box-shadow: 6px 8px rgb(36, 30, 121);
+    color: white;
+}
+
+.loginhere{
+    border-radius: 4px;
+    padding: 5px;
+    background: azure;
+}
+
+body{
+    background: linear-gradient(262deg, rgb(81, 14, 190), #54f9ff);
+}

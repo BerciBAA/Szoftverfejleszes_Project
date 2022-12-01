@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Sign Up</title>
+    <link rel="stylsheet" href="../style/index.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
         body {
@@ -17,8 +18,13 @@
     </style>
 </head>
 
-<body>
-    <div class="wrapper">
+<body style="background: linear-gradient(262deg, rgb(26 26 26), #262626);">
+    <div class="wrapper" style="background: linear-gradient(262deg, rgb(81, 14, 190), #54f9ff);
+                                border-radius: 0.4em;
+                                margin-top: 12em;
+                                margin-left: auto;
+                                margin-right: auto;
+                                box-shadow: 6px 8px rgb(36, 30, 121);">
         <h2>Sign Up</h2>
         <p>Please fill this form to create an account.</p>
         <form id="register_form" action="javascript:;" method="post">
@@ -45,7 +51,7 @@
             <div class="form-group ">
                 <input type="submit" class="btn btn-primary" value="Submit">
             </div>
-            <p>Already have an account? <a href="login.php ">Login here</a>.</p>
+            <p>Already have an account? <a href="login.php " class="loginhere" style="border-radius: 4px; padding: 5px; background: azure;">Login here</a>.</p>
         </form>
     </div>
 </body>
