@@ -11,13 +11,13 @@
     <title>Fő oldal</title>
 </head>
 <body>
-    <div calss="container">
+    <div calss="container"> 
         <div class="side">
             <div class="header">
                 <div class="avatar">
                     <img src="https://icons.veryicon.com/png/o/internet--web/prejudice/user-128.png" alt="">
                 </div>
-                  <div class="titel"><?php echo $_SESSION['username']?></div>
+                  <div class="titel"><?php echo $_SESSION['username']?> asd</div>
             </div>
             <div class="games">
                 <ul>
@@ -28,22 +28,22 @@
 
             <div id="panel">
                 <section id="left">    
-                    <p class="chat" onclick="" style="cursor: pointer;"><a href="users.php">Chat</a></p>
-                    <p class="skipp" onclick="" style="cursor: pointer;">🙏</p>
+                    <p class="chat" onclick="" style="cursor: pointer;"><a href="users.php">Csevegés</a></p>
+                    <p class="skipp" onclick="" style="cursor: pointer;"><span>🙏</span></p>
                     <p class="myusername"><?php echo $_SESSION['username']?></p>                    
                 </section>
                 <section id="middle">    
                     <div class="userimg">
                         <img src="https://cdn1.epicgames.com/salesEvent/salesEvent/EGS_LeagueofLegends_RiotGames_S1_2560x1440-ee500721c06da3ec1e5535a88588c77f" alt="">
                     </div>
-                    <p class="description">Description</p>
-                    <p class="star" onclick="" style="cursor: pointer;">✨</p>
+                    <p class="description">Leírás</p>
+                    <button class="button-85" role="button">✨</button>
                     
                 </section>
                 <section id="right">    
-                    <p class="settings" onclick="" style="cursor: pointer;"><a href="profile.php">Settings</a></p>
-                    <p class="play" onclick="" style="cursor: pointer;">🤝</p>
-                    <p class="logout" onclick="" style="cursor: pointer;"><a href="logout.php">Logout</a></p>
+                    <p class="settings" onclick="" style="cursor: pointer;"><a href="profile.php">Beállítások</a></p>
+                    <p class="play" onclick="" style="cursor: pointer;"><span>🤝</span></p>
+                    <p class="logout" onclick="" style="cursor: pointer;"><a href="logout.php">Kijelentkezés</a></p>
                 </section>
             </div>
             

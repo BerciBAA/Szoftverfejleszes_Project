@@ -9,6 +9,7 @@
 body{
     background:linear-gradient(262deg, rgb(81, 14, 190), #54f9ff);
     overflow: hidden;
+    color: white;
 }
 
 
@@ -54,7 +55,7 @@ nav a:hover{
     margin-left: 35%;
 }
 h1{
-    color: black;
+    color: white;
     margin-top: 20px;
     font-size: 4em;
 }

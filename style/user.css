@@ -11,10 +11,11 @@ body{
     align-items: center;
     justify-content: center;
     min-height: 100vh;
+    background: linear-gradient(262deg, rgb(81, 14, 190), #54f9ff);
 }
 
 .wrapper{
-    background-color: wheat;
+    background: linear-gradient(262deg, rgb(26 26 26), #262626);
     width: 1300px;
     height: 900px;
     box-shadow: 0 0 12px;
