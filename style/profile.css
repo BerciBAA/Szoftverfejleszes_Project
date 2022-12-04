@@ -95,3 +95,21 @@ h2{
 .tab:visited{
     color:black;
 }
+.rightBox .editShow input{
+    background-color: gray ;
+    border-radius: 10px;
+    padding-left: 5px;
+}
+
+.rightBox .editShow textarea{
+    background-color: gray ;
+    border-radius: 10px;
+    padding-left: 5px;
+}
+
+.rightBox .editShow .btn{
+    background-color: wheat ;
+    
+    padding-left:0;
+}
+
