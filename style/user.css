@@ -5,6 +5,7 @@
     box-sizing: border-box;
     text-decoration: none;
     font-family: 'Poppins',sans-serif;
+    
 }
 body{
     display: flex;
@@ -32,7 +33,7 @@ body{
     padding-bottom: 20px;
     padding-top: 20px;
     justify-content: space-between;
-    border-bottom: 1px solid black;
+    border-bottom: 1px solid white;
     
    
 }
@@ -100,11 +101,11 @@ body{
 }
 .usersList a {
     padding-right: 15px;
-    color: black;
+    color: white;
 }
 .usersList a:visited
 {
-    color: black;
+    color: white;
 }
 .usersList a .content img{
     height: 40px;
@@ -112,30 +113,28 @@ body{
  
 }
 .usersList a .statusDot{
-    font-size: 12px;
+    font-size: 18px;
     color: green;
 }
 
 
-.usersList a .statusDot.offile{
-    font-size: 12px;
-    color: wheat;
+.usersList a .statusDotOffile{
+    font-size: 18px;
+    color: white;
 }
 
 .wrapper .backIcon{
     padding: 10px;
     font-size: 35px;
     color: black;
-    background-color: white;
+    background-color: black;
 }
 .users .usersList span{
     font-size: 20px;
     font-weight: bold;
-}
-.users .usersList p{
-    background-color: whitesmoke;
-    padding: 10px;
-    border-radius: 30px;
-    text-align: center;
+    
 }
 
+header .content .details{
+    color: white;
+}

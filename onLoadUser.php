@@ -33,7 +33,7 @@
                         <p>'.$lastMsg.'</p>
                         </div>
                         </div>
-                        <div class="statusDot.offile">
+                        <div class="statusDotOffile">
                         <i class="fa fa-circle"></i>
                         </div>
                         </a>';
