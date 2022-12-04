@@ -5,8 +5,10 @@ require_once "config.php";
 
 $params = [];
 $params["action"] = isset($_REQUEST["action"]) ? $_REQUEST["action"] : "";
-$params["game_id"] = isset($_REQUEST["game_id"]) ? $_REQUEST["game_id"] : "";
+$params["game_id"] = isset($_REQUEST["game_id"]) ? $_REQUEST["game_id"] : 0;
 $params["title"] = isset($_REQUEST["title"]) ? $_REQUEST["title"] : "";
+$params["player_id"] = isset($_REQUEST["player_id"]) ? $_REQUEST["player_id"] : 0;
+$params["match"] = isset($_REQUEST["match"]) ? $_REQUEST["match"] : false;
 if(isset($_REQUEST["form"])){
     $params["screen_name"] = "";
     $params["rank"] = "";
@@ -30,6 +32,58 @@ if($params["action"] == "getUnsetGames"){
                 $rows[] = $row;
             }
             echo(json_encode($rows));
+        } else{
+            $errors[] = "db_error";
+        }
+        mysqli_stmt_close($stmt);
+    }
+}
+elseif($params["action"] == "getAllGames"){
+    $sql = "SELECT g.id, g.name FROM games g;";
+        
+    if($stmt = mysqli_prepare($link, $sql)){
+        
+        if(mysqli_stmt_execute($stmt)){
+            $rows = [];
+            $result = mysqli_stmt_get_result($stmt);
+            while($row = mysqli_fetch_assoc($result)){
+                $rows[] = $row;
+            }
+            echo(json_encode($rows));
+        } else{
+            $errors[] = "db_error";
+        }
+        mysqli_stmt_close($stmt);
+    }
+}
+elseif($params["action"] == "getNextPlayer"){
+    $sql = "SELECT u.id, u.username, u.birthdate, u.microphone, u.gender, u.description, ug.screenname, ug.rank FROM users u INNER JOIN user_games ug ON u.id = ug.userid WHERE ug.gameid = ? AND u.id NOT IN (SELECT userid1 FROM matches WHERE userid2 = ?) AND u.id NOT IN (SELECT userid2 FROM matches WHERE userid1 = ?) AND u.id != ?;";
+        
+    if($stmt = mysqli_prepare($link, $sql)){
+        $stmt->bind_param("iiii", $params["game_id"],$param_id,$param_id,$param_id);
+        $param_id = $_SESSION["id"];
+        if(mysqli_stmt_execute($stmt)){
+            
+            $rows = [];
+            $result = mysqli_stmt_get_result($stmt);
+            while($row = mysqli_fetch_assoc($result)){
+                $rows[] = $row;
+            }
+            echo(json_encode($rows));
+        } else{
+            $errors[] = "db_error";
+        }
+        mysqli_stmt_close($stmt);
+    }
+}
+elseif($params["action"] == "matchPlayer"){
+    $sql = "INSERT INTO matches (userid1, userid2, gameid, accepted) VALUES (?,?,?,?)";
+        
+    if($stmt = mysqli_prepare($link, $sql)){
+        $stmt->bind_param("iiii", $param_id,$params["player_id"],$params["game_id"],$params["match"]);
+        $param_id = $_SESSION["id"];
+        if(mysqli_stmt_execute($stmt)){
+            
         } else{
             $errors[] = "db_error";
         }
@@ -103,7 +157,7 @@ elseif($params["action"] == "getVideos"){
     if($stmt = mysqli_prepare($link, $sql)){
         $stmt->bind_param("ii", $param_id,$params["game_id"]);
         
-        $param_id = $_SESSION["id"];
+        $param_id = $params["player_id"] ? $params["player_id"] : $_SESSION["id"];
         
         if(mysqli_stmt_execute($stmt)){
             $rows = [];

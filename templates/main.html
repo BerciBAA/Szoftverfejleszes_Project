@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,48 +8,201 @@
     <title>Document</title>
     <link rel="stylesheet" href="style/mainstyle.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
-    
+    <link href="https://vjs.zencdn.net/7.20.3/video-js.css" rel="stylesheet" />
+
     <title>Fő oldal</title>
 </head>
+
 <body>
-    <div calss="container"> 
+    <div calss="container">
         <div class="side">
             <div class="header">
                 <div class="avatar">
                     <img src="https://icons.veryicon.com/png/o/internet--web/prejudice/user-128.png" alt="">
                 </div>
-                  <div class="titel"><?php echo $_SESSION['username']?> asd</div>
+                <div class="titel">
+                    <?php echo $_SESSION['username']?> asd</div>
             </div>
             <div class="games">
                 <ul>
-                    <li class="active">Leagues of Legends</li>
-                    <li>Dota 2</li>
                 </ul>
-            </div> 
+            </div>
 
             <div id="panel">
-                <section id="left">    
+                <section id="left">
                     <p class="chat" onclick="" style="cursor: pointer;"><a href="users.php">Csevegés</a></p>
-                    <p class="skipp" onclick="" style="cursor: pointer;"><span>🙏</span></p>
-                    <p class="myusername"><?php echo $_SESSION['username']?></p>                    
+                    <p class="skipp" onclick="matchPlayer(false)" style="cursor: pointer;"><span>🙏</span></p>
+                    <p class="myusername">
+                        <?php echo $_SESSION['username']?>
+                    </p>
                 </section>
-                <section id="middle">    
+                <section id="middle">
                     <div class="userimg">
-                        <img src="https://cdn1.epicgames.com/salesEvent/salesEvent/EGS_LeagueofLegends_RiotGames_S1_2560x1440-ee500721c06da3ec1e5535a88588c77f" alt="">
+                        <div>
+                            <video id="videoPlayer" width="800" height="450" controls>
+                                <source id="videoPlayerSource">
+                            </video>
+                        </div>
+                        <div>
+                            <a href="javascript:;" onclick="prevVideo();">Előző</a><a href="javascript:;" onclick="nextVideo();">Következő</a>
+                        </div>
                     </div>
-                    <p class="description">Leírás</p>
+                    <div class="description">
+                        <div><span id="username"></span></div><br>
+                        <div>Játékon belüli név: <span id="screenname"></span></div><br>
+                        <div>Játékon belüli rang: <span id="rank"></span></div>
+                    </div>
                     <button class="button-85" role="button">✨</button>
-                    
+
                 </section>
-                <section id="right">    
+                <section id="right">
                     <p class="settings" onclick="" style="cursor: pointer;"><a href="profile.php">Beállítások</a></p>
-                    <p class="play" onclick="" style="cursor: pointer;"><span>🤝</span></p>
+                    <p class="play" onclick="matchPlayer(true)" style="cursor: pointer;"><span>🤝</span></p>
                     <p class="logout" onclick="" style="cursor: pointer;"><a href="logout.php">Kijelentkezés</a></p>
                 </section>
             </div>
-            
-        </div>    
-        <div class="content"></div>  
-    </div>    
+
+        </div>
+        <div class="content"></div>
+    </div>
 </body>
+<script type="text/javascript " src="includes/jquery-3.6.1.js"></script>
+<script src="https://vjs.zencdn.net/7.20.3/video.min.js"></script>
+<script>
+    currentGameId = 1;
+    currentPlayerId = -1;
+    currentPlayerVideos = [];
+    currentVideoId = 0;
+
+    function getGames() {
+        $.ajax({
+            method: "get",
+            url: "game.php",
+            data: {
+                action: "getAllGames",
+            },
+            success: function(data) {
+                response = JSON.parse(data);
+                $(".jsItem").detach();
+                activeClass = ", active";
+                response.forEach(element => {
+                    $("div.games ul").append("<li class='jsItem" + activeClass + "' value='" + element.id + "''  onclick='switchGame(" + element.id + ");'>" + element.name + "</li>");
+                    activeClass = "";
+                });
+            }
+        });
+    }
+
+    function switchGame(gameId) {
+        currentGameId = gameId;
+        currentPlayerVideos = [];
+        currentVideoId = 0;
+        $("div.games li").each(function(index) {
+            if ($(this).val() == gameId) {
+                $(this).addClass("active");
+            } else {
+                $(this).removeClass("active");
+            }
+        });
+        showNextPlayer();
+    }
+
+    function showNextPlayer() {
+        $.ajax({
+            method: "get",
+            url: "game.php",
+            data: {
+                action: "getNextPlayer",
+                game_id: currentGameId
+            },
+            success: function(data) {
+                console.log(data);
+                response = JSON.parse(data);
+                console.log(response);
+                if (response.length < 1) {
+                    $("#username").text("Nincsenek további felhasználók akik erre a játékra keresnek partnert.");
+                } else {
+                    currentPlayerId = response[0].id;
+                    currentPlayerVideos = [];
+                    currentVideoId = 0;
+                    $("#username").text(response[0].username);
+                    $("#screenname").text(response[0].screenname);
+                    $("#rank").text(response[0].rank);
+                    getVideos(currentGameId, currentPlayerId);
+                }
+
+            }
+        });
+    }
+
+    function matchPlayer(matched) {
+        $.ajax({
+            method: "post",
+            url: "game.php",
+            data: {
+                action: "matchPlayer",
+                player_id: currentPlayerId,
+                match: matched,
+                game_id: currentGameId
+            },
+            success: function(data) {
+                console.log(data);
+                showNextPlayer();
+            }
+        });
+    }
+
+    function getVideos(gameId, userId) {
+        $.ajax({
+            method: "get",
+            url: "game.php",
+            data: {
+                action: "getVideos",
+                game_id: gameId,
+                player_id: userId
+            },
+            success: function(data) {
+                console.log(data);
+                response = JSON.parse(data);
+                console.log(response);
+                currentPlayerVideos = response;
+                currentVideoId = 0;
+                if (currentPlayerVideos.length > 0) {
+                    playVideo();
+                }
+            }
+        });
+    }
+
+    function nextVideo() {
+        if (currentVideoId + 1 < currentPlayerVideos.length) {
+            currentVideoId += 1;
+            playVideo();
+        }
+    }
+
+    function prevVideo() {
+        if (currentVideoId > 0) {
+            currentVideoId -= 1;
+            playVideo();
+        }
+    }
+
+    function playVideo() {
+        var videoElm = document.getElementById('videoPlayer');
+        var videoSourceElm = document.getElementById('videoPlayerSource');
+        if (!videoElm.paused) {
+            videoElm.pause();
+        }
+
+        videoSourceElm.src = currentPlayerVideos[currentVideoId].filename;
+        videoSourceElm.type = "video/mp4";
+
+        videoElm.load();
+    }
+
+    getGames();
+    showNextPlayer();
+</script>
+
 </html>
