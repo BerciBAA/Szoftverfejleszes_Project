@@ -18,10 +18,10 @@
         <div class="side">
             <div class="header">
                 <div class="avatar">
-                    <img src="https://icons.veryicon.com/png/o/internet--web/prejudice/user-128.png" alt="">
+                    <img src="img/test_mage.jpg" alt="">
                 </div>
                 <div class="titel">
-                    <?php echo $_SESSION['username']?> asd</div>
+                    <?php echo $_SESSION['username']?></div>
             </div>
             <div class="games">
                 <ul>
@@ -38,22 +38,21 @@
                 </section>
                 <section id="middle">
                     <div class="userimg">
-                        <div>
+                        <a href="javascript:;" onclick="prevVideo();" id="previous">Előző videó</a>
+                        <div id="videoPlayerDiv">
                             <video id="videoPlayer" width="800" height="450" controls>
                                 <source id="videoPlayerSource">
                             </video>
                         </div>
-                        <div>
-                            <a href="javascript:;" onclick="prevVideo();">Előző</a><a href="javascript:;" onclick="nextVideo();">Következő</a>
-                        </div>
+                        <a href="javascript:;" onclick="nextVideo();" id="next">Következő videó</a>
                     </div>
                     <div class="description">
-                        <div><span id="username"></span></div><br>
-                        <div>Játékon belüli név: <span id="screenname"></span></div><br>
-                        <div>Játékon belüli rang: <span id="rank"></span></div>
+                        <div><span id="username">Felhasználó Név: </span></div>
+                        <div id="screennameDiv">Játékon belüli név: <span id="screenname"></span></div>
+                        <div id="rankDiv">Játékon belüli rang: <span id="rank"></span></div>
+                        <div id="descriptionsDiv">Leírás: <span id="descriptions"></span></div>
                     </div>
                     <button class="button-85" role="button">✨</button>
-
                 </section>
                 <section id="right">
                     <p class="settings" onclick="" style="cursor: pointer;"><a href="profile.php">Beállítások</a></p>
@@ -69,7 +68,7 @@
 <script type="text/javascript " src="includes/jquery-3.6.1.js"></script>
 <script src="https://vjs.zencdn.net/7.20.3/video.min.js"></script>
 <script>
-    currentGameId = 1;
+    currentGameId = 3;
     currentPlayerId = -1;
     currentPlayerVideos = [];
     currentVideoId = 0;
@@ -87,10 +86,33 @@
                 activeClass = ", active";
                 response.forEach(element => {
                     $("div.games ul").append("<li class='jsItem" + activeClass + "' value='" + element.id + "''  onclick='switchGame(" + element.id + ");'>" + element.name + "</li>");
+                    
                     activeClass = "";
                 });
             }
         });
+    }
+    function hideUserDetails() {
+        var videoElm = document.getElementById('videoPlayer');
+        var videoSourceElm = document.getElementById('videoPlayerSource');
+        $("#videoPlayerDiv").hide();
+        $("#next").hide();
+        $("#previous").hide();
+        $("#screennameDiv").hide();
+        $("#rankDiv").hide();
+        $("#descriptionsDiv").hide();
+        videoElm.pause();
+    }
+    function showUserDetails() {
+        var videoElm = document.getElementById('videoPlayer');
+        var videoSourceElm = document.getElementById('videoPlayerSource');
+        $("#videoPlayerDiv").show();
+        $("#next").show();
+        $("#previous").show();
+        $("#screennameDiv").show();
+        $("#rankDiv").show();
+        $("#descriptionsDiv").show();
+        videoElm.pause();
     }
 
     function switchGame(gameId) {
@@ -100,9 +122,11 @@
         $("div.games li").each(function(index) {
             if ($(this).val() == gameId) {
                 $(this).addClass("active");
+               
             } else {
                 $(this).removeClass("active");
             }
+
         });
         showNextPlayer();
     }
@@ -121,6 +145,7 @@
                 console.log(response);
                 if (response.length < 1) {
                     $("#username").text("Nincsenek további felhasználók akik erre a játékra keresnek partnert.");
+                    hideUserDetails();
                 } else {
                     currentPlayerId = response[0].id;
                     currentPlayerVideos = [];
@@ -128,6 +153,8 @@
                     $("#username").text(response[0].username);
                     $("#screenname").text(response[0].screenname);
                     $("#rank").text(response[0].rank);
+                    $("#descriptions").text(response[0].description);
+                   
                     getVideos(currentGameId, currentPlayerId);
                 }
 
@@ -169,6 +196,10 @@
                 currentVideoId = 0;
                 if (currentPlayerVideos.length > 0) {
                     playVideo();
+                    showUserDetails();
+                }
+                else{
+                    hideUserDetails();
                 }
             }
         });
@@ -194,11 +225,14 @@
         if (!videoElm.paused) {
             videoElm.pause();
         }
-
         videoSourceElm.src = currentPlayerVideos[currentVideoId].filename;
         videoSourceElm.type = "video/mp4";
-
         videoElm.load();
+        videoElm.volume = 0.04;
+        videoElm.play();
+
+
+
     }
 
     getGames();

@@ -138,3 +138,10 @@ body{
 header .content .details{
     color: white;
 }
+
+.noUser{
+    padding: 10px;
+    color: white;
+    border-bottom: 1px white solid;
+    
+}

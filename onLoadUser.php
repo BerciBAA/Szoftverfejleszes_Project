@@ -1,11 +1,18 @@
 <?php
     include_once "config.php";
     session_start();
-    $sql = mysqli_query($link,"SELECT * FROM users where username != '{$_SESSION['username']}' ORDER BY status");
+    $sql = mysqli_query($link,"SELECT * FROM users u INNER JOIN matches m 
+    ON u.id = m.userid2 
+    OR u.id = m.userid1 
+    where username != '{$_SESSION['username']}' 
+    AND accepted = 1 
+    AND (m.userid1 = '{$_SESSION['id']}'
+    OR m.userid2 = '{$_SESSION['id']}')
+    ORDER BY status");
     $output = "";
     $lastMsg = "";
     if(mysqli_num_rows($sql) == 0){
-        $output = "Nincs elérhető felhasználó.";
+        $output = '<div class="noUser">Nincs elérhető felhasználó.</div>';
     }
     elseif(mysqli_num_rows($sql) > 0){
         while($row = mysqli_fetch_assoc($sql)){

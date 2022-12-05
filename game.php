@@ -80,10 +80,10 @@ elseif($params["action"] == "matchPlayer"){
     $sql = "INSERT INTO matches (userid1, userid2, gameid, accepted) VALUES (?,?,?,?)";
         
     if($stmt = mysqli_prepare($link, $sql)){
-        $stmt->bind_param("iiii", $param_id,$params["player_id"],$params["game_id"],$params["match"]);
+        $stmt->bind_param("iiii", $param_id,$params["player_id"],$params["game_id"],$param_match);
         $param_id = $_SESSION["id"];
+        $param_match = $params["match"] == "true" ? 1 : 0;
         if(mysqli_stmt_execute($stmt)){
-            
         } else{
             $errors[] = "db_error";
         }
